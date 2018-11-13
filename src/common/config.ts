@@ -15,9 +15,9 @@ export class ConfigService {
       process.env,
       {
         DB: url({ default: "pg:///example" }),
-        PORT: port(),
+        PORT: port()
       },
-      { strict: true },
+      { strict: true }
     );
   }
 
@@ -28,6 +28,6 @@ export class ConfigService {
 
 @Module({
   providers: [ConfigService],
-  exports: [ConfigService],
+  exports: [ConfigService]
 })
 export class ConfigModule {}
