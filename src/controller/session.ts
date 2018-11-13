@@ -12,7 +12,7 @@ export class SessionController {
   public async login_post(
     @Body("username") username: string,
     @Body("password") password: string,
-    @Res() res: Response,
+    @Res() res: Response
   ) {
     const token = await this.userService.login(username, password);
     res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000 });

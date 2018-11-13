@@ -3,7 +3,7 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  HttpStatus,
+  HttpStatus
 } from "@nestjs/common";
 import { Response } from "express";
 
@@ -43,7 +43,7 @@ export class GeneralExceptionFilter implements ExceptionFilter {
   public catch(exception: HttpException, host: ArgumentsHost) {
     (host.switchToHttp().getResponse() as Response).json({
       message: exception.message,
-      status: exception.getStatus(),
+      status: exception.getStatus()
     });
   }
 }
@@ -52,7 +52,7 @@ export class AppExceptionFilter implements ExceptionFilter {
   public catch(exception: HttpException, host: ArgumentsHost) {
     (host.switchToHttp().getResponse() as Response).json({
       message: exception.message,
-      status: exception.getStatus(),
+      status: exception.getStatus()
     });
   }
 }

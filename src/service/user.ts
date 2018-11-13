@@ -4,7 +4,7 @@ import {
   DuplicatedUsernameException,
   InvalidTokenException,
   PasswordMismatchException,
-  UserNotExistException,
+  UserNotExistException
 } from "~/common/errors";
 import { PinoLoggerService } from "~/common/logger.service";
 import { TokenService } from "~/common/token.service";
@@ -15,7 +15,7 @@ export class UserService {
   constructor(
     @Inject(TokenService) private readonly tokenService: TokenService,
     @Inject(DbService) private readonly dbService: DbService,
-    @Inject(PinoLoggerService) private readonly logger: PinoLoggerService,
+    @Inject(PinoLoggerService) private readonly logger: PinoLoggerService
   ) {}
   /**
    * register a new user
