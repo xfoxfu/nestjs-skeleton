@@ -25,6 +25,7 @@
     "envalid": "^4.1.4",
     "jsonwebtoken": "^8.3.0",
     "mysql": "^2.16.0",
+    "pg": "^7.6.1",
     "pino": "^5.8.1",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^6.2.2",

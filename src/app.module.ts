@@ -4,6 +4,7 @@ require("tsconfig-paths/register");
 import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { AuthGuard, AuthMiddleware } from "~/common/authentication";
+import { ConfigModule } from "~/common/config";
 import { DbModule, DbService } from "~/common/db";
 import { LoggerModule } from "~/common/logger.service";
 import { TokenService } from "~/common/token.service";
@@ -11,7 +12,7 @@ import { UserController } from "~/controller/user";
 import { UserService } from "~/service/user";
 
 @Module({
-  imports: [LoggerModule, DbModule],
+  imports: [ConfigModule, LoggerModule, DbModule],
   controllers: [
     UserController,
     // add new controllers here

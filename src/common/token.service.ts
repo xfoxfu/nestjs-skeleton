@@ -10,7 +10,10 @@ interface ITokenData {
 
 @Injectable()
 export class TokenService {
-  constructor(@Inject(ConfigService) private config: ConfigService) {}
+  private jwt_token: string;
+  constructor(@Inject(ConfigService) config: ConfigService) {
+    this.jwt_token = config.get("JWT_TOKEN");
+  }
 
   /**
    * issue new token with 7d expiration
@@ -19,7 +22,7 @@ export class TokenService {
    */
   public sign(user: User): string {
     const data: ITokenData = { username: user.username };
-    return sign(data, this.config.get("JWT_TOKEN"), {
+    return sign(data, this.jwt_token, {
       expiresIn: "7d",
     });
   }
@@ -31,8 +34,7 @@ export class TokenService {
    */
   public verify(token: string): string {
     try {
-      return (verify(token, this.config.get("JWT_TOKEN")) as ITokenData)
-        .username;
+      return (verify(token, this.jwt_token) as ITokenData).username;
     } catch {
       throw new InvalidTokenException();
     }

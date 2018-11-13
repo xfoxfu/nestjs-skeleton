@@ -3,12 +3,17 @@ import {
   InjectConnection,
   InjectRepository,
   TypeOrmModule,
+  TypeOrmModuleOptions,
+  TypeOrmOptionsFactory,
 } from "@nestjs/typeorm";
 import { Connection, Repository } from "typeorm";
-import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { ConfigModule, ConfigService } from "~/common/config";
 import { LoggerModule, TypeOrmLoggerService } from "~/common/logger.service";
 import { User } from "~/entity/user";
+
+const entities = [
+  User, // add entities here
+];
 
 @Injectable()
 export class DbService {
@@ -20,10 +25,10 @@ export class DbService {
 
 @Module({
   imports: [
-    ConfigModule,
     TypeOrmModule.forRootAsync({
-      imports: [LoggerModule],
-      useFactory: (logger: TypeOrmLoggerService, config: ConfigService) => ({
+      imports: [ConfigModule, LoggerModule],
+      inject: [ConfigService, TypeOrmLoggerService],
+      useFactory: (config: ConfigService, logger: TypeOrmLoggerService) => ({
         type: "postgres",
         url: config.get("DB"),
         migrationsRun: !config.get("isProd"),
@@ -34,9 +39,8 @@ export class DbService {
         migrations: ["dist/migration/**/*.js", "src/migration/**/*.ts"],
         subscribers: ["dist/subscriber/**/*.js", "src/subscriber/**/*.ts"],
       }),
-      inject: [TypeOrmLoggerService],
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature(entities),
   ],
   providers: [DbService],
   exports: [DbService],

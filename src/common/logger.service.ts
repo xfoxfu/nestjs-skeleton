@@ -17,7 +17,7 @@ export const create_pino = (config: ConfigService) =>
 export class PinoLoggerService implements LoggerService {
   public logger: pino.Logger;
 
-  constructor(@Inject(ConfigService) private config: ConfigService) {
+  constructor(@Inject(ConfigService) config: ConfigService) {
     this.logger = create_pino(config);
   }
 
