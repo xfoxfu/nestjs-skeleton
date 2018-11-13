@@ -7,21 +7,25 @@ import { AuthGuard, AuthMiddleware } from "~/common/authentication";
 import { DbModule, DbService } from "~/common/db";
 import { LoggerModule } from "~/common/logger.service";
 import { TokenService } from "~/common/token.service";
-import { UserController } from "./controller/user";
-import { UserService } from "./service/user";
+import { UserController } from "~/controller/user";
+import { UserService } from "~/service/user";
 
 @Module({
   imports: [LoggerModule, DbModule],
-  controllers: [UserController],
+  controllers: [
+    UserController,
+    // add new controllers here
+  ],
   providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
     DbService,
     TokenService,
     UserService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard
-    }
-  ]
+    // add new services here
+  ],
 })
 export class AppModule {
   public configure(consumer: MiddlewareConsumer) {

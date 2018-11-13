@@ -22,6 +22,13 @@ Note the following points:
 - By default, development requires `yarn`.
 - `yarn start:prod` will not automatically compile the sources.
 
+## Development pipeline
+
+- create/find relevant services in `/src/service`
+- add service to `/src/app.module.ts`
+- create/modify relevant controller in `/src/controller`
+- add controller to `src/app.module.ts`
+
 ## Default features
 
 - [nest.js](https://nestjs.com)

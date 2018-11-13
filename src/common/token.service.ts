@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { sign, verify } from "jsonwebtoken";
+import { JWT_TOKEN } from "~/common/config";
+import { InvalidTokenException } from "~/common/errors";
 import { User } from "~/entity/user";
-import { JWT_TOKEN } from "./config";
-import { InvalidTokenException } from "./errors";
 
 interface ITokenData {
   username: string;
@@ -18,7 +18,7 @@ export class TokenService {
   public sign(user: User): string {
     const data: ITokenData = { username: user.username };
     return sign(data, JWT_TOKEN, {
-      expiresIn: "7d"
+      expiresIn: "7d",
     });
   }
   /**
