@@ -10,11 +10,13 @@ import { LoggerModule } from "~/common/logger.service";
 import { TokenService } from "~/common/token.service";
 import { UserController } from "~/controller/user";
 import { UserService } from "~/service/user";
+import { SessionController } from "./controller/session";
 
 @Module({
   imports: [ConfigModule, LoggerModule, DbModule],
   controllers: [
     UserController,
+    SessionController,
     // add new controllers here
   ],
   providers: [
