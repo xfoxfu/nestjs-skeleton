@@ -10,7 +10,7 @@ export class UserService {
   constructor(
     @Inject(TokenService) private readonly tokenService: TokenService,
     @Inject(DbService) private readonly dbService: DbService,
-    @Inject(PinoLoggerService) private readonly logger: PinoLoggerService,
+    @Inject(PinoLoggerService) private readonly logger: PinoLoggerService
   ) {}
   /**
    * acquire token information

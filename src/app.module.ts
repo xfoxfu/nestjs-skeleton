@@ -17,9 +17,9 @@ import { TokenService } from "~/common/token.service";
     TokenService,
     {
       provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
+      useClass: AuthGuard
+    }
+  ]
 })
 export class AppModule {
   public configure(consumer: MiddlewareConsumer) {

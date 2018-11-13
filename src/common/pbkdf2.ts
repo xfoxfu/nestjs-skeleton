@@ -30,7 +30,7 @@ const getPBKDF2Params = (hashedPasswordBytes: Buffer) => {
         hashAlgorithm: "sha1",
         subkey,
         salt,
-        iteration: 1000,
+        iteration: 1000
       };
     }
     /*
@@ -50,13 +50,13 @@ const getPBKDF2Params = (hashedPasswordBytes: Buffer) => {
         subkey,
         0,
         13 + saltLength,
-        13 + saltLength + 32,
+        13 + saltLength + 32
       );
       return {
         iteration: iter,
         salt,
         subkey,
-        hashAlgorithm: getPBKDF2Algorithm(prf),
+        hashAlgorithm: getPBKDF2Algorithm(prf)
       };
     }
     default:
@@ -70,7 +70,7 @@ const validate = (hash: Buffer, password: Buffer) => {
     data.salt,
     data.iteration,
     data.subkey.length,
-    data.hashAlgorithm,
+    data.hashAlgorithm
   ).then(k => k === data.subkey);
 };
 

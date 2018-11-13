@@ -18,7 +18,7 @@ export class TokenService {
   public sign(user: User): string {
     const data: ITokenData = { uid: user.id };
     return sign(data, JWT_TOKEN, {
-      expiresIn: "7d",
+      expiresIn: "7d"
     });
   }
   /**

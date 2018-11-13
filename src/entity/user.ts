@@ -6,13 +6,13 @@ import {
   FindOneOptions,
   getConnection,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import uuid from "uuid/v4";
 import {
   PASSWORD_HASH_ROUNDS,
   SHADOWSOCKS_DEFAULT_ENCRYPTION,
-  SHADOWSOCKS_PORT_RANGE,
+  SHADOWSOCKS_PORT_RANGE
 } from "~/common/config";
 import * as config from "~/common/config";
 
@@ -82,8 +82,8 @@ export class User {
       .getRepository(User)
       .findOne({
         order: {
-          ssPort: "DESC",
-        },
+          ssPort: "DESC"
+        }
       } as FindOneOptions<User>);
     if (!user) {
       // TODO: rename port_last_allocated to port_start

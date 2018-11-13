@@ -4,7 +4,7 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
-  UnauthorizedException,
+  UnauthorizedException
 } from "@nestjs/common";
 
 @Catch(UnauthorizedException)
