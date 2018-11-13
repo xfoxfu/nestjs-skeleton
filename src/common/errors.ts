@@ -4,18 +4,8 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
-  UnauthorizedException
 } from "@nestjs/common";
-
-@Catch(UnauthorizedException)
-export class UnauthorizedExceptionFilter implements ExceptionFilter {
-  public catch(exception: UnauthorizedException, host: ArgumentsHost) {
-    host
-      .switchToHttp()
-      .getResponse()
-      .redirect("/login");
-  }
-}
+import { Response } from "express";
 
 export class Exception extends HttpException {
   constructor(message: string, status = 500) {
@@ -45,5 +35,24 @@ export class DuplicatedUsernameException extends Exception {
 export class ProfileTypeNotExistException extends Exception {
   constructor() {
     super("profile type not exists", HttpStatus.BAD_REQUEST);
+  }
+}
+
+@Catch(HttpException)
+export class GeneralExceptionFilter implements ExceptionFilter {
+  public catch(exception: HttpException, host: ArgumentsHost) {
+    (host.switchToHttp().getResponse() as Response).json({
+      message: exception.message,
+      status: exception.getStatus(),
+    });
+  }
+}
+@Catch(Exception)
+export class AppExceptionFilter implements ExceptionFilter {
+  public catch(exception: HttpException, host: ArgumentsHost) {
+    (host.switchToHttp().getResponse() as Response).json({
+      message: exception.message,
+      status: exception.getStatus(),
+    });
   }
 }

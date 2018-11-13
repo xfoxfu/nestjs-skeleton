@@ -27,6 +27,7 @@ Note the following points:
 - [nest.js](https://nestjs.com)
 - [TypeScript](https://www.typescriptlang.org)
 - [TypeORM](https://typeorm.io) database ORM with MySQL database
+- [jsonwebtoken]() json web token
 - [pino](https://github.com/pinojs/pino) logger
 - [envalid](https://github.com/af/envalid) environment configuration loading
 - [Visual Studio Code](https://code.visualstudio.com) integration

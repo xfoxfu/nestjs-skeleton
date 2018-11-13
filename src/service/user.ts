@@ -1,6 +1,11 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { DbService } from "~/common/db";
-import { InvalidTokenException } from "~/common/errors";
+import {
+  DuplicatedUsernameException,
+  InvalidTokenException,
+  PasswordMismatchException,
+  UserNotExistException,
+} from "~/common/errors";
 import { PinoLoggerService } from "~/common/logger.service";
 import { TokenService } from "~/common/token.service";
 import { User } from "~/entity/user";
@@ -10,8 +15,42 @@ export class UserService {
   constructor(
     @Inject(TokenService) private readonly tokenService: TokenService,
     @Inject(DbService) private readonly dbService: DbService,
-    @Inject(PinoLoggerService) private readonly logger: PinoLoggerService
+    @Inject(PinoLoggerService) private readonly logger: PinoLoggerService,
   ) {}
+  /**
+   * register a new user
+   *
+   * @param username string
+   * @param password string
+   * @returns token
+   */
+  public async register(username: string, password: string): Promise<string> {
+    if (await this.dbService.users.findOne(username)) {
+      throw new DuplicatedUsernameException();
+    }
+    const user = new User(username);
+    await user.set_password(password);
+    await this.dbService.users.save(user);
+    return this.tokenService.sign(user);
+  }
+  /**
+   * login
+   * if the password hash is in old format, the hash will be upgraded
+   *
+   * @param username string
+   * @param password string
+   * @returns token
+   */
+  public async login(username: string, password: string): Promise<string> {
+    const user = await this.dbService.users.findOne(username);
+    if (!user) {
+      throw new UserNotExistException();
+    }
+    if (!(await user.check_password(password))) {
+      throw new PasswordMismatchException();
+    }
+    return this.tokenService.sign(user);
+  }
   /**
    * acquire token information
    *
@@ -19,8 +58,8 @@ export class UserService {
    * @return User
    */
   public async get_token_information(token: string): Promise<User> {
-    const uid = await this.tokenService.verify(token);
-    const user = await this.dbService.users.findOne(uid);
+    const username = await this.tokenService.verify(token);
+    const user = await this.dbService.users.findOne(username);
     if (!user) {
       throw new InvalidTokenException();
     }

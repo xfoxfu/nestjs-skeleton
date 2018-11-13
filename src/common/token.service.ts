@@ -5,7 +5,7 @@ import { JWT_TOKEN } from "./config";
 import { InvalidTokenException } from "./errors";
 
 interface ITokenData {
-  uid: number;
+  username: string;
 }
 
 @Injectable()
@@ -16,9 +16,9 @@ export class TokenService {
    * @param user
    */
   public sign(user: User): string {
-    const data: ITokenData = { uid: user.id };
+    const data: ITokenData = { username: user.username };
     return sign(data, JWT_TOKEN, {
-      expiresIn: "7d"
+      expiresIn: "7d",
     });
   }
   /**
@@ -27,9 +27,9 @@ export class TokenService {
    * @param token
    * @returns user id
    */
-  public verify(token: string): number {
+  public verify(token: string): string {
     try {
-      return (verify(token, JWT_TOKEN) as ITokenData).uid;
+      return (verify(token, JWT_TOKEN) as ITokenData).username;
     } catch {
       throw new InvalidTokenException();
     }

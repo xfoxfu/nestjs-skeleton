@@ -7,7 +7,7 @@ import {
   MiddlewareFunction,
   NestMiddleware,
   ReflectMetadata,
-  UnauthorizedException
+  UnauthorizedException,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { UserService } from "~/service/user";
@@ -21,6 +21,9 @@ export const Anonymous = () =>
 // tslint:disable-next-line:variable-name
 export const Authenticated = () =>
   ReflectMetadata("auth:type", AUTH_TYPE_AUTHENTICATED);
+// tslint:disable-next-line:variable-name
+export const Permissions = (...permissions: string[]) =>
+  ReflectMetadata("auth:scope", permissions);
 
 export class AuthMiddleware implements NestMiddleware {
   constructor(@Inject(UserService) private userService: UserService) {}
@@ -47,6 +50,7 @@ export class AuthGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   public canActivate(context: ExecutionContext): boolean {
+    // decorators on methods are prior to those on class
     const auth_type =
       this.reflector.get<string>("auth:type", context.getHandler()) ||
       this.reflector.get<string>("auth:type", context.getClass());
@@ -56,10 +60,7 @@ export class AuthGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
     const res = context.switchToHttp().getResponse();
     const user = req.user;
-    if (user && auth_type === AUTH_TYPE_ANONYMOUS) {
-      res.redirect("/dashboard");
-      return false;
-    } else if (!user && auth_type === AUTH_TYPE_AUTHENTICATED) {
+    if (!user && auth_type === AUTH_TYPE_AUTHENTICATED) {
       throw new UnauthorizedException();
     }
     return true; // TODO: permission check
