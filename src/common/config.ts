@@ -17,9 +17,9 @@ export class ConfigService {
       {
         DB: url({ default: "pg:///example" }),
         PORT: port({ default: 80, devDefault: 3000 }),
-        JWT_TOKEN: str({ default: "94792d86" }),
+        JWT_TOKEN: str({ default: "94792d86" })
       },
-      { strict: true },
+      { strict: true }
     );
   }
 
@@ -30,6 +30,6 @@ export class ConfigService {
 
 @Module({
   providers: [ConfigService],
-  exports: [ConfigService],
+  exports: [ConfigService]
 })
 export class ConfigModule {}
