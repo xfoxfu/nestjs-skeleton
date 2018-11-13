@@ -1,20 +1,24 @@
 import { Inject, Injectable, LoggerService, Module } from "@nestjs/common";
 import pino from "pino";
 import { Logger, QueryRunner } from "typeorm";
-import { ENV_IS_DEV, ENV_IS_TEST } from "~/common/config";
+import { ConfigModule, ConfigService } from "~/common/config";
 
-export const create_pino = () =>
+export const create_pino = (config: ConfigService) =>
   pino({
-    prettyPrint: ENV_IS_DEV,
-    level: ENV_IS_DEV ? "trace" : ENV_IS_TEST ? "silent" : "info"
+    prettyPrint: config.get("isDev"),
+    level: config.get("isDev")
+      ? "trace"
+      : config.get("isTest")
+      ? "silent"
+      : "info",
   });
 
 @Injectable()
 export class PinoLoggerService implements LoggerService {
   public logger: pino.Logger;
 
-  constructor() {
-    this.logger = create_pino();
+  constructor(@Inject(ConfigService) private config: ConfigService) {
+    this.logger = create_pino(config);
   }
 
   public trace(message: string, ...args: any[]) {
@@ -40,7 +44,7 @@ export class PinoLoggerService implements LoggerService {
 @Injectable()
 export class TypeOrmLoggerService implements Logger {
   constructor(
-    @Inject(PinoLoggerService) private readonly logger: pino.Logger
+    @Inject(PinoLoggerService) private readonly logger: pino.Logger,
   ) {}
   /**
    * Logs query and parameters used in it.
@@ -48,7 +52,7 @@ export class TypeOrmLoggerService implements Logger {
   public logQuery(
     query: string,
     parameters?: any[],
-    queryRunner?: QueryRunner
+    queryRunner?: QueryRunner,
   ): any {
     this.logger.trace("typeorm:query " + query, parameters || []);
   }
@@ -59,11 +63,11 @@ export class TypeOrmLoggerService implements Logger {
     error: string,
     query: string,
     parameters?: any[],
-    queryRunner?: QueryRunner
+    queryRunner?: QueryRunner,
   ): any {
     this.logger.error("typeorm:query " + error, {
       query,
-      parameters: parameters || []
+      parameters: parameters || [],
     });
   }
   /**
@@ -73,11 +77,11 @@ export class TypeOrmLoggerService implements Logger {
     time: number,
     query: string,
     parameters?: any[],
-    queryRunner?: QueryRunner
+    queryRunner?: QueryRunner,
   ): any {
     this.logger.warn(`typeorm:query slow +${time}`, {
       query,
-      parameters
+      parameters,
     });
   }
   /**
@@ -99,7 +103,7 @@ export class TypeOrmLoggerService implements Logger {
   public log(
     level: "log" | "info" | "warn",
     message: any,
-    queryRunner?: QueryRunner
+    queryRunner?: QueryRunner,
   ): any {
     switch (level) {
       case "log":
@@ -116,7 +120,8 @@ export class TypeOrmLoggerService implements Logger {
 }
 
 @Module({
+  imports: [ConfigModule],
   providers: [PinoLoggerService, TypeOrmLoggerService],
-  exports: [PinoLoggerService, TypeOrmLoggerService]
+  exports: [PinoLoggerService, TypeOrmLoggerService],
 })
 export class LoggerModule {}
