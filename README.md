@@ -24,16 +24,35 @@ Note the following points:
 
 ## Development pipeline
 
+### Service
+
 - create/find relevant services in `/src/service`
 - add service to `/src/app.module.ts`
+
+### Controller
+
 - create/modify relevant controller in `/src/controller`
 - add controller to `src/app.module.ts`
+
+### Error
+
+- create exception in `/src/common/errors.ts`
+
+### Entity
+
+- create entity in `/src/entity`
+- generate migration with `yarn db migration:generate --name <migration_name>`
+
+### Config
+
+- change `IEnvironment` in `/src/common/config.ts`
+- define schema according to compile errors
 
 ## Default features
 
 - [nest.js](https://nestjs.com)
 - [TypeScript](https://www.typescriptlang.org)
-- [TypeORM](https://typeorm.io) database ORM with MySQL database
+- [TypeORM](https://typeorm.io) database ORM with PostgreSQL database
 - [jsonwebtoken]() json web token
 - [pino](https://github.com/pinojs/pino) logger
 - [envalid](https://github.com/af/envalid) environment configuration loading

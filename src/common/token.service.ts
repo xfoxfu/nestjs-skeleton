@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { sign, verify } from "jsonwebtoken";
-import { JWT_TOKEN } from "~/common/config";
+import { ConfigService } from "~/common/config";
 import { InvalidTokenException } from "~/common/errors";
 import { User } from "~/entity/user";
 
@@ -10,6 +10,8 @@ interface ITokenData {
 
 @Injectable()
 export class TokenService {
+  constructor(@Inject(ConfigService) private config: ConfigService) {}
+
   /**
    * issue new token with 7d expiration
    *
@@ -17,8 +19,8 @@ export class TokenService {
    */
   public sign(user: User): string {
     const data: ITokenData = { username: user.username };
-    return sign(data, JWT_TOKEN, {
-      expiresIn: "7d"
+    return sign(data, this.config.get("JWT_TOKEN"), {
+      expiresIn: "7d",
     });
   }
   /**
@@ -29,7 +31,8 @@ export class TokenService {
    */
   public verify(token: string): string {
     try {
-      return (verify(token, JWT_TOKEN) as ITokenData).username;
+      return (verify(token, this.config.get("JWT_TOKEN")) as ITokenData)
+        .username;
     } catch {
       throw new InvalidTokenException();
     }
