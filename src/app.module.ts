@@ -13,19 +13,19 @@ import { UserService } from "~/service/user";
 @Module({
   imports: [LoggerModule, DbModule],
   controllers: [
-    UserController
+    UserController,
     // add new controllers here
   ],
   providers: [
     {
       provide: APP_GUARD,
-      useClass: AuthGuard
+      useClass: AuthGuard,
     },
     DbService,
     TokenService,
-    UserService
+    UserService,
     // add new services here
-  ]
+  ],
 })
 export class AppModule {
   public configure(consumer: MiddlewareConsumer) {

@@ -20,7 +20,7 @@ export class TokenService {
   public sign(user: User): string {
     const data: ITokenData = { username: user.username };
     return sign(data, this.config.get("JWT_TOKEN"), {
-      expiresIn: "7d"
+      expiresIn: "7d",
     });
   }
   /**

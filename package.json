@@ -67,5 +67,8 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "prettier": {
+    "trailingComma": "all"
   }
 }

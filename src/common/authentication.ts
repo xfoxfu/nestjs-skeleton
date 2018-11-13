@@ -7,7 +7,7 @@ import {
   MiddlewareFunction,
   NestMiddleware,
   ReflectMetadata,
-  UnauthorizedException
+  UnauthorizedException,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { UserService } from "~/service/user";
