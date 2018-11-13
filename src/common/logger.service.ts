@@ -6,7 +6,7 @@ import { ENV_IS_DEV, ENV_IS_TEST } from "~/common/config";
 export const create_pino = () =>
   pino({
     prettyPrint: ENV_IS_DEV,
-    level: ENV_IS_DEV ? "trace" : ENV_IS_TEST ? "silent" : "info",
+    level: ENV_IS_DEV ? "trace" : ENV_IS_TEST ? "silent" : "info"
   });
 
 @Injectable()
@@ -40,7 +40,7 @@ export class PinoLoggerService implements LoggerService {
 @Injectable()
 export class TypeOrmLoggerService implements Logger {
   constructor(
-    @Inject(PinoLoggerService) private readonly logger: pino.Logger,
+    @Inject(PinoLoggerService) private readonly logger: pino.Logger
   ) {}
   /**
    * Logs query and parameters used in it.
@@ -48,7 +48,7 @@ export class TypeOrmLoggerService implements Logger {
   public logQuery(
     query: string,
     parameters?: any[],
-    queryRunner?: QueryRunner,
+    queryRunner?: QueryRunner
   ): any {
     this.logger.trace("typeorm:query " + query, parameters || []);
   }
@@ -59,11 +59,11 @@ export class TypeOrmLoggerService implements Logger {
     error: string,
     query: string,
     parameters?: any[],
-    queryRunner?: QueryRunner,
+    queryRunner?: QueryRunner
   ): any {
     this.logger.error("typeorm:query " + error, {
       query,
-      parameters: parameters || [],
+      parameters: parameters || []
     });
   }
   /**
@@ -73,11 +73,11 @@ export class TypeOrmLoggerService implements Logger {
     time: number,
     query: string,
     parameters?: any[],
-    queryRunner?: QueryRunner,
+    queryRunner?: QueryRunner
   ): any {
     this.logger.warn(`typeorm:query slow +${time}`, {
       query,
-      parameters,
+      parameters
     });
   }
   /**
@@ -99,7 +99,7 @@ export class TypeOrmLoggerService implements Logger {
   public log(
     level: "log" | "info" | "warn",
     message: any,
-    queryRunner?: QueryRunner,
+    queryRunner?: QueryRunner
   ): any {
     switch (level) {
       case "log":
@@ -117,6 +117,6 @@ export class TypeOrmLoggerService implements Logger {
 
 @Module({
   providers: [PinoLoggerService, TypeOrmLoggerService],
-  exports: [PinoLoggerService, TypeOrmLoggerService],
+  exports: [PinoLoggerService, TypeOrmLoggerService]
 })
 export class LoggerModule {}

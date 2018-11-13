@@ -4,7 +4,7 @@ export const DB = process.env.CLOVER_DB || "clover.db";
 export enum EnvTypes {
   Development,
   Production,
-  Testing,
+  Testing
 }
 export const ENV =
   process.env.NODE_ENV! in ["test"]
@@ -37,7 +37,7 @@ export const siteTitle = getEnv("SITE_TITLE", "Clover");
 export const openRegister = getEnvBoolean("OPEN_REGISTER", false);
 export const sendgrid = {
   key: getEnv("SENDGRID_KEY", "KEY"),
-  email: getEnv("SENDGRID_EMAIL", "clover@example.com"),
+  email: getEnv("SENDGRID_EMAIL", "clover@example.com")
 };
 export const jwtKey = getEnv("JWT_KEY", "527877cb");
 export const siteUrl = getEnv("SITE_URL", "http://127.0.0.1:3000");
@@ -46,19 +46,19 @@ export const proxyHost = getEnv("PROXY_HOST", "127.0.0.1");
 // TODO: deprecate shadowsocksDefaultEncryption, shadowsocksMuToken and shadowsocksPortStart
 export const shadowsocksDefaultEncryption = getEnv(
   "DEFAULT_ENCRYPTION",
-  "chacha20-ietf-poly1305",
+  "chacha20-ietf-poly1305"
 );
 export const shadowsocksPortStart = +getEnv("PORT_START", "10000");
 export const shadowsocksMuToken = getEnv(
   "MU_TOKEN",
-  "d6d0fbdc9483c27e6b653457879d3fbd",
+  "d6d0fbdc9483c27e6b653457879d3fbd"
 );
 export const shadowsocks = {
   enabled: getEnvBoolean("SS_ENABLED"),
   defaultEncryption: shadowsocksDefaultEncryption,
   portStart: shadowsocksPortStart,
   muToken: shadowsocksMuToken,
-  host: proxyHost,
+  host: proxyHost
 };
 export const vmess = {
   enabled: getEnvBoolean("VMESS_ENABLED"),
@@ -71,21 +71,21 @@ export const vmess = {
   network: getEnv("VMESS_NETWORK", "ws"),
   tcp: {
     header: {
-      type: getEnv("VMESS_TCP_HEADER_TYPE", "none"),
-    },
+      type: getEnv("VMESS_TCP_HEADER_TYPE", "none")
+    }
   },
   kcp: {
     uplinkCapacity: +getEnv("VMESS_KCP_UP_CAP", "5"),
     downlinkCapacity: +getEnv("VMESS_KCP_DOWN_CAP", "20"),
     congestion: getEnvBoolean("VMESS_KCP_CONGESTION", false),
     header: {
-      type: getEnv("VMESS_KCP_HEADER", "none"),
-    },
+      type: getEnv("VMESS_KCP_HEADER", "none")
+    }
   },
   webSocket: {
     path: getEnv("VMESS_WS_PATH", "/"),
     host: getEnv("VMESS_WS_HOST", proxyHost),
-    headers: JSON.parse(getEnv("VMESS_WS_HEADERS", "{}")),
+    headers: JSON.parse(getEnv("VMESS_WS_HEADERS", "{}"))
   },
   tls: {
     status: getEnv("VMESS_TLS", "out"),
@@ -93,8 +93,8 @@ export const vmess = {
     cert: {
       trust: getEnvBoolean("VMESS_TLS_CERT_TRUST"),
       certificateFile: getEnv("VMESS_TLS_CERT", "server.crt"),
-      keyFile: getEnv("VMESS_TLS_KEY", "server.key"),
-    },
-  },
+      keyFile: getEnv("VMESS_TLS_KEY", "server.key")
+    }
+  }
 };
 export const SENTRY_URL = getEnv("SENTRY_URL", "");
