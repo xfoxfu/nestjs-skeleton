@@ -1,24 +1,15 @@
-// tslint:disable-next-line:no-var-requires
-require("tsconfig-paths/register");
-
 import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { AuthGuard, AuthMiddleware } from "~/common/authentication";
 import { ConfigModule } from "~/common/config";
 import { DbModule, DbService } from "~/common/db";
+import { require_classes_sync } from "~/common/loader";
 import { LoggerModule } from "~/common/logger.service";
 import { TokenService } from "~/common/token.service";
-import { UserController } from "~/controller/user";
-import { UserService } from "~/service/user";
-import { SessionController } from "./controller/session";
 
 @Module({
   imports: [ConfigModule, LoggerModule, DbModule],
-  controllers: [
-    UserController,
-    SessionController,
-    // add new controllers here
-  ],
+  controllers: require_classes_sync(__dirname, "controller"),
   providers: [
     {
       provide: APP_GUARD,
@@ -26,8 +17,7 @@ import { SessionController } from "./controller/session";
     },
     DbService,
     TokenService,
-    UserService,
-    // add new services here
+    ...require_classes_sync(__dirname, "service"),
   ],
 })
 export class AppModule {

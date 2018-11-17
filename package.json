@@ -23,6 +23,7 @@
     "@nestjs/core": "^5.4.0",
     "@nestjs/typeorm": "^5.2.2",
     "envalid": "^4.1.4",
+    "globby": "^8.0.1",
     "jsonwebtoken": "^8.3.0",
     "mysql": "^2.16.0",
     "pg": "^7.6.1",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@nestjs/testing": "^5.4.0",
     "@types/express": "^4.16.0",
+    "@types/globby": "^8.0.0",
     "@types/jsonwebtoken": "^8.3.0",
     "@types/node": "^10.12.5",
     "@types/pino": "^5.8.1",

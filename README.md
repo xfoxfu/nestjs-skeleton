@@ -21,6 +21,7 @@ Note the following points:
 - The source codes are automatically formatted and linted before commit using [husky](https://github.com/typicode/husky).
 - By default, development requires `yarn`.
 - `yarn start:prod` will not automatically compile the sources.
+- Controllers in `/src/controller` and services in `/src/service` will be automatically loaded. As a consequence, those files cannot contain non-relevant function exports.
 
 ## Development pipeline
 

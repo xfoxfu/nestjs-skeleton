@@ -10,10 +10,7 @@ import { Connection, Repository } from "typeorm";
 import { ConfigModule, ConfigService } from "~/common/config";
 import { LoggerModule, TypeOrmLoggerService } from "~/common/logger.service";
 import { User } from "~/entity/user";
-
-const entities = [
-  User, // add entities here
-];
+import { require_classes_sync } from "./loader";
 
 @Injectable()
 export class DbService {
@@ -35,12 +32,12 @@ export class DbService {
         synchronize: config.get("isDev"),
         logging: true,
         logger,
-        entities: ["dist/entity/**/*.js", "src/entity/**/*.ts"],
-        migrations: ["dist/migration/**/*.js", "src/migration/**/*.ts"],
-        subscribers: ["dist/subscriber/**/*.js", "src/subscriber/**/*.ts"],
+        entities: require_classes_sync(__dirname, "../entity"),
+        migrations: require_classes_sync(__dirname, "../migration"),
+        subscribers: require_classes_sync(__dirname, "../subscriber"),
       }),
     }),
-    TypeOrmModule.forFeature(entities),
+    TypeOrmModule.forFeature(require_classes_sync(__dirname, "../entity")),
   ],
   providers: [DbService],
   exports: [DbService],
