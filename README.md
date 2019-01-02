@@ -1,4 +1,6 @@
 # nestjs-skeleton
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcoderfox%2Fnestjs-skeleton.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcoderfox%2Fnestjs-skeleton?ref=badge_shield)
+
 
 ## Usage
 
@@ -64,3 +66,7 @@ Note the following points:
 - [ ] unit & integration tests
 - [ ] Docker support
 - [ ] controller & service generation
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcoderfox%2Fnestjs-skeleton.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcoderfox%2Fnestjs-skeleton?ref=badge_large)
