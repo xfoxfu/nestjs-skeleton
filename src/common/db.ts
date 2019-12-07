@@ -38,6 +38,6 @@ export class DbService {
     TypeOrmModule.forFeature(requireClassesSync(__dirname, "../entity")),
   ],
   providers: [DbService],
-  exports: [DbService],
+  exports: [DbService, TypeOrmModule],
 })
 export class DbModule {}

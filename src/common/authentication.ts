@@ -7,7 +7,7 @@ import {
   Inject,
   Injectable,
   NestMiddleware,
-  ReflectMetadata,
+  SetMetadata,
   UnauthorizedException,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
@@ -16,16 +16,15 @@ import { UserService } from "../service/user";
 const AUTH_TYPE_ANONYMOUS = "anonymous";
 const AUTH_TYPE_AUTHENTICATED = "authenticated";
 
-export const Anonymous = (): ReturnType<typeof ReflectMetadata> =>
-  ReflectMetadata("auth:type", AUTH_TYPE_ANONYMOUS);
+export const Anonymous = (): ReturnType<typeof SetMetadata> =>
+  SetMetadata("auth:type", AUTH_TYPE_ANONYMOUS);
 
-export const Authenticated = (): ReturnType<typeof ReflectMetadata> =>
-  ReflectMetadata("auth:type", AUTH_TYPE_AUTHENTICATED);
+export const Authenticated = (): ReturnType<typeof SetMetadata> =>
+  SetMetadata("auth:type", AUTH_TYPE_AUTHENTICATED);
 
 export const Permissions = (
   ...permissions: string[]
-): ReturnType<typeof ReflectMetadata> =>
-  ReflectMetadata("auth:scope", permissions);
+): ReturnType<typeof SetMetadata> => SetMetadata("auth:scope", permissions);
 
 export class AuthMiddleware implements NestMiddleware {
   // eslint-disable-next-line no-useless-constructor
