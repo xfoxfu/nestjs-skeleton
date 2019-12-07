@@ -6,9 +6,9 @@
   "license": "MIT",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\"",
-    "start": "ts-node -r tsconfig-paths/register src/main.ts",
-    "start:dev": "nodemon",
-    "start:debug": "nodemon -x 'node -r ts-node/register -r tsconfig-paths/register --inspect' src/main.ts",
+    "start": "ts-node src/main.ts",
+    "start:dev": "tsnd src/main",
+    "start:debug": "tsnd --inspect=5858 src/main",
     "start:prod": "node dist/main.js",
     "lint": "eslint src/* --ext .js,.ts",
     "test": "ava",
@@ -21,6 +21,7 @@
   "dependencies": {
     "@nestjs/common": "^6.10.7",
     "@nestjs/core": "^6.10.7",
+    "@nestjs/platform-express": "^6.10.7",
     "@nestjs/typeorm": "^6.2.0",
     "envalid": "^6.0.0",
     "globby": "^10.0.1",
@@ -54,7 +55,8 @@
     "pino-pretty": "^3.5.0",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
-    "ts-node": "8.5.4"
+    "ts-node": "8.5.4",
+    "ts-node-dev": "^1.0.0-pre.44"
   },
   "nodemonConfig": {
     "ext": "ts,hbs"

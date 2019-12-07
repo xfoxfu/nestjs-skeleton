@@ -10,7 +10,7 @@
 | development | `yarn start`         | start server without auto reloading                   |
 | development | `yarn start:debug`   | start server with auto reloading and debugging        |
 | development | `yarn format`        | format source codes                                   |
-| development | `yarn lint`          | run tslint                                            |
+| development | `yarn lint`          | run eslint                                            |
 | development | `yarn test`          | run tests                                             |
 | development | `yarn test:watch`    | run tests with auto reloading                         |
 | deploy      | `yarn compile`       | compile executable source of plain node               |
@@ -60,7 +60,7 @@ Note the following points:
 - [pino](https://github.com/pinojs/pino) logger
 - [envalid](https://github.com/af/envalid) environment configuration loading
 - [Visual Studio Code](https://code.visualstudio.com) integration
-- [huksy](https://github.com/typicode/husky) git hooks
+- [husky](https://github.com/typicode/husky) git hooks
 
 ## To-Dos
 
