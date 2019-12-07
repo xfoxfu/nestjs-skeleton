@@ -22,9 +22,6 @@
     /* Module Resolution Options */
     "moduleResolution": "node",
     "baseUrl": "./src",
-    "paths": {
-      "~/*": ["./", "./*"]
-    },
     "esModuleInterop": true,
 
     /* Source Map Options */

@@ -1,14 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { DbService } from "~/common/db";
+import { DbService } from "../common/db";
 import {
   DuplicatedUsernameException,
   InvalidTokenException,
   PasswordMismatchException,
   UserNotExistException,
-} from "~/common/errors";
-import { PinoLoggerService } from "~/common/logger.service";
-import { TokenService } from "~/common/token.service";
-import { User } from "~/entity/user";
+} from "../common/errors";
+import { PinoLoggerService } from "../common/logger.service";
+import { TokenService } from "../common/token.service";
+import { User } from "../entity/user";
 
 @Injectable()
 export class UserService {
@@ -17,6 +17,7 @@ export class UserService {
     @Inject(DbService) private readonly dbService: DbService,
     @Inject(PinoLoggerService) private readonly logger: PinoLoggerService,
   ) {}
+
   /**
    * register a new user
    *
@@ -29,10 +30,11 @@ export class UserService {
       throw new DuplicatedUsernameException();
     }
     const user = new User(username);
-    await user.set_password(password);
+    await user.setPassword(password);
     await this.dbService.users.save(user);
     return this.tokenService.sign(user);
   }
+
   /**
    * login
    * if the password hash is in old format, the hash will be upgraded
@@ -46,19 +48,20 @@ export class UserService {
     if (!user) {
       throw new UserNotExistException();
     }
-    if (!(await user.check_password(password))) {
+    if (!(await user.checkPassword(password))) {
       throw new PasswordMismatchException();
     }
     return this.tokenService.sign(user);
   }
+
   /**
    * acquire token information
    *
    * @param token string
    * @return User
    */
-  public async get_token_information(token: string): Promise<User> {
-    const username = await this.tokenService.verify(token);
+  public async getTokenInfo(token: string): Promise<User> {
+    const username = this.tokenService.verify(token);
     const user = await this.dbService.users.findOne(username);
     if (!user) {
       throw new InvalidTokenException();

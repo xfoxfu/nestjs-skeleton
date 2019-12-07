@@ -3,14 +3,12 @@ import {
   InjectConnection,
   InjectRepository,
   TypeOrmModule,
-  TypeOrmModuleOptions,
-  TypeOrmOptionsFactory,
 } from "@nestjs/typeorm";
 import { Connection, Repository } from "typeorm";
-import { ConfigModule, ConfigService } from "~/common/config";
-import { LoggerModule, TypeOrmLoggerService } from "~/common/logger.service";
-import { User } from "~/entity/user";
-import { require_classes_sync } from "./loader";
+import { ConfigModule, ConfigService } from "../common/config";
+import { LoggerModule, TypeOrmLoggerService } from "../common/logger.service";
+import { User } from "../entity/user";
+import { requireClassesSync } from "./loader";
 
 @Injectable()
 export class DbService {
@@ -32,12 +30,12 @@ export class DbService {
         synchronize: config.get("isDev"),
         logging: true,
         logger,
-        entities: require_classes_sync(__dirname, "../entity"),
-        migrations: require_classes_sync(__dirname, "../migration"),
-        subscribers: require_classes_sync(__dirname, "../subscriber"),
+        entities: requireClassesSync(__dirname, "../entity"),
+        migrations: requireClassesSync(__dirname, "../migration"),
+        subscribers: requireClassesSync(__dirname, "../subscriber"),
       }),
     }),
-    TypeOrmModule.forFeature(require_classes_sync(__dirname, "../entity")),
+    TypeOrmModule.forFeature(requireClassesSync(__dirname, "../entity")),
   ],
   providers: [DbService],
   exports: [DbService],

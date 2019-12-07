@@ -40,7 +40,7 @@ export class ProfileTypeNotExistException extends Exception {
 
 @Catch(HttpException)
 export class GeneralExceptionFilter implements ExceptionFilter {
-  public catch(exception: HttpException, host: ArgumentsHost) {
+  public catch(exception: HttpException, host: ArgumentsHost): void {
     (host.switchToHttp().getResponse() as Response).json({
       message: exception.message,
       status: exception.getStatus(),
@@ -49,7 +49,7 @@ export class GeneralExceptionFilter implements ExceptionFilter {
 }
 @Catch(Exception)
 export class AppExceptionFilter implements ExceptionFilter {
-  public catch(exception: HttpException, host: ArgumentsHost) {
+  public catch(exception: HttpException, host: ArgumentsHost): void {
     (host.switchToHttp().getResponse() as Response).json({
       message: exception.message,
       status: exception.getStatus(),

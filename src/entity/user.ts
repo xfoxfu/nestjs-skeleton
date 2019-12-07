@@ -4,6 +4,7 @@ import { Column, Entity, PrimaryColumn } from "typeorm";
 export class User {
   @PrimaryColumn()
   public readonly username: string;
+
   @Column()
   public password_hash!: string;
 
@@ -17,15 +18,17 @@ export class User {
    * @param password
    * @returns boolean
    */
-  public async check_password(password: string): Promise<boolean> {
+  public async checkPassword(password: string): Promise<boolean> {
     return password === this.password_hash;
   }
+
   /**
    * set password
    *
    * @param password
    */
-  public async set_password(password: string) {
+  public async setPassword(password: string): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/camelcase
     this.password_hash = password;
   }
 }

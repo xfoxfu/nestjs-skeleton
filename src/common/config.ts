@@ -1,22 +1,22 @@
 import { Module } from "@nestjs/common";
-import envalid, { email, json, port, str, url } from "envalid";
+import envalid, { port, str, url } from "envalid";
 
-interface IEnvironment extends envalid.CleanEnv {
+interface Environment extends envalid.CleanEnv {
   DB: string;
   PORT: number;
   JWT_TOKEN: string;
 }
 
 export class ConfigService {
-  private readonly envConfig: IEnvironment;
+  private readonly envConfig: Environment;
 
   constructor() {
     this.envConfig = envalid.cleanEnv<
       {
         [K in Exclude<
-          keyof IEnvironment,
+          keyof Environment,
           keyof envalid.CleanEnv
-        >]: IEnvironment[K]
+        >]: Environment[K];
       }
     >(
       process.env,
@@ -29,7 +29,7 @@ export class ConfigService {
     );
   }
 
-  public get<K extends keyof IEnvironment>(key: K): IEnvironment[K] {
+  public get<K extends keyof Environment>(key: K): Environment[K] {
     return this.envConfig[key];
   }
 }

@@ -1,18 +1,19 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { sign, verify } from "jsonwebtoken";
-import { ConfigService } from "~/common/config";
-import { InvalidTokenException } from "~/common/errors";
-import { User } from "~/entity/user";
+import { ConfigService } from "../common/config";
+import { InvalidTokenException } from "../common/errors";
+import { User } from "../entity/user";
 
-interface ITokenData {
+interface TokenData {
   username: string;
 }
 
 @Injectable()
 export class TokenService {
-  private jwt_token: string;
+  private jwtToken: string;
+
   constructor(@Inject(ConfigService) config: ConfigService) {
-    this.jwt_token = config.get("JWT_TOKEN");
+    this.jwtToken = config.get("JWT_TOKEN");
   }
 
   /**
@@ -21,11 +22,12 @@ export class TokenService {
    * @param user
    */
   public sign(user: User): string {
-    const data: ITokenData = { username: user.username };
-    return sign(data, this.jwt_token, {
+    const data: TokenData = { username: user.username };
+    return sign(data, this.jwtToken, {
       expiresIn: "7d",
     });
   }
+
   /**
    * get user name by token
    *
@@ -34,7 +36,7 @@ export class TokenService {
    */
   public verify(token: string): string {
     try {
-      return (verify(token, this.jwt_token) as ITokenData).username;
+      return (verify(token, this.jwtToken) as TokenData).username;
     } catch {
       throw new InvalidTokenException();
     }

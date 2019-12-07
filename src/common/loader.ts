@@ -1,10 +1,13 @@
 import { sync as glob } from "globby";
 import { join } from "path";
 
-export const require_classes_sync = (base: string, ...patterns: string[]) =>
-  glob(patterns.map(p => join(base, p)), {
-    expandDirectories: ["*.js", "*.ts"],
-  })
+export const requireClassesSync = (base: string, ...patterns: string[]) =>
+  glob(
+    patterns.map(p => join(base, p)),
+    {
+      expandDirectories: ["*.js", "*.ts"],
+    },
+  )
     .map(file => require(file))
     .map((e: object) =>
       Object.values(e).filter(

@@ -1,73 +1,74 @@
+/* eslint-disable max-classes-per-file */
+
 import {
   CanActivate,
   createParamDecorator,
   ExecutionContext,
   Inject,
   Injectable,
-  MiddlewareFunction,
   NestMiddleware,
   ReflectMetadata,
   UnauthorizedException,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { UserService } from "~/service/user";
+import { UserService } from "../service/user";
 
 const AUTH_TYPE_ANONYMOUS = "anonymous";
 const AUTH_TYPE_AUTHENTICATED = "authenticated";
 
-// tslint:disable-next-line:variable-name
-export const Anonymous = () =>
+export const Anonymous = (): ReturnType<typeof ReflectMetadata> =>
   ReflectMetadata("auth:type", AUTH_TYPE_ANONYMOUS);
-// tslint:disable-next-line:variable-name
-export const Authenticated = () =>
+
+export const Authenticated = (): ReturnType<typeof ReflectMetadata> =>
   ReflectMetadata("auth:type", AUTH_TYPE_AUTHENTICATED);
-// tslint:disable-next-line:variable-name
-export const Permissions = (...permissions: string[]) =>
+
+export const Permissions = (
+  ...permissions: string[]
+): ReturnType<typeof ReflectMetadata> =>
   ReflectMetadata("auth:scope", permissions);
 
 export class AuthMiddleware implements NestMiddleware {
+  // eslint-disable-next-line no-useless-constructor
   constructor(@Inject(UserService) private userService: UserService) {}
-  public resolve(...args: any[]): MiddlewareFunction {
-    return (req, res, next) => {
-      if (req && req.cookies && req.cookies.token) {
-        this.userService.get_token_information(req.cookies.token).then(u => {
-          (req as any).user = u;
-          if (next) {
-            next();
-          }
-        });
-      } else {
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  use(req: any, res: any, next: Function): void {
+    if (req && req.cookies && req.cookies.token) {
+      this.userService.getTokenInfo(req.cookies.token).then(u => {
+        req.user = u;
         if (next) {
           next();
         }
-      }
-    };
+      });
+    } else if (next) {
+      next();
+    }
   }
 }
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  // eslint-disable-next-line no-useless-constructor
   constructor(private readonly reflector: Reflector) {}
 
   public canActivate(context: ExecutionContext): boolean {
     // decorators on methods are prior to those on class
-    const auth_type =
+    const authType =
       this.reflector.get<string>("auth:type", context.getHandler()) ||
       this.reflector.get<string>("auth:type", context.getClass());
-    if (!auth_type) {
+    if (!authType) {
       return true;
     }
     const req = context.switchToHttp().getRequest();
-    const res = context.switchToHttp().getResponse();
-    const user = req.user;
-    if (!user && auth_type === AUTH_TYPE_AUTHENTICATED) {
+
+    const { user } = req;
+    if (!user && authType === AUTH_TYPE_AUTHENTICATED) {
       throw new UnauthorizedException();
     }
     return true; // TODO: permission check
   }
 }
 
-// tslint:disable-next-line:variable-name
 export const ReqUser = createParamDecorator((data, req) => {
   return req.user;
 });
