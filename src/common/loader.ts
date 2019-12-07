@@ -1,7 +1,10 @@
 import { sync as glob } from "globby";
 import { join } from "path";
 
-export const requireClassesSync = (base: string, ...patterns: string[]) =>
+export const requireClassesSync = (
+  base: string,
+  ...patterns: string[]
+): any[] => // eslint-disable-line @typescript-eslint/no-explicit-any
   glob(
     patterns.map(p => join(base, p)),
     {
