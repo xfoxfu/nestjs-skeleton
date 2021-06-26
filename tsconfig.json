@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es2018",
+    // For Node.js v12, use ES2019
+    // For Node.js v14 or v16, use ES2020
+    // see https://nodejs.org/en/about/releases/ and https://node.green/
+    "target": "es2020",
     "module": "commonjs",
     "jsx": "react",
     "outDir": "./dist",
@@ -32,9 +35,6 @@
     "emitDecoratorMetadata": true,
 
     "skipLibCheck": true
-
-    /* Compiler Plugins */
-    // "plugins": [{ "name": "typescript-tslint-plugin" }]
   },
   "include": ["src/**/*.ts"]
 }

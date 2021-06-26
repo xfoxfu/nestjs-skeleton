@@ -6,23 +6,23 @@
 
 | period      | command              | description                                           |
 | ----------- | -------------------- | ----------------------------------------------------- |
-| development | `yarn start:dev`     | start server with auto reloading                      |
-| development | `yarn start`         | start server without auto reloading                   |
-| development | `yarn start:debug`   | start server with auto reloading and debugging        |
-| development | `yarn format`        | format source codes                                   |
-| development | `yarn lint`          | run eslint                                            |
-| development | `yarn test`          | run tests                                             |
-| development | `yarn test:watch`    | run tests with auto reloading                         |
-| deploy      | `yarn compile`       | compile executable source of plain node               |
-| deploy      | `yarn clean-compile` | cleanup, then compile executable source of plain node |
-| deploy      | `yarn clean`         | cleanup compiled dists                                |
-| production  | `yarn start:prod`    | start server                                          |
+| development | `pnpm start:dev`     | start server with auto reloading                      |
+| development | `pnpm start`         | start server without auto reloading                   |
+| development | `pnpm start:debug`   | start server with auto reloading and debugging        |
+| development | `pnpm format`        | format source codes                                   |
+| development | `pnpm lint`          | run eslint                                            |
+| development | `pnpm test`          | run tests                                             |
+| development | `pnpm test:watch`    | run tests with auto reloading                         |
+| deploy      | `pnpm compile`       | compile executable source of plain node               |
+| deploy      | `pnpm clean-compile` | cleanup, then compile executable source of plain node |
+| deploy      | `pnpm clean`         | cleanup compiled dists                                |
+| production  | `pnpm start:prod`    | start server                                          |
 
 Note the following points:
 
 - The source codes are automatically formatted and linted before commit using [husky](https://github.com/typicode/husky).
-- By default, development requires `yarn`.
-- `yarn start:prod` will not automatically compile the sources.
+- By default, development requires `pnpm`.
+- `pnpm start:prod` will not automatically compile the sources.
 - Controllers in `/src/controller` and services in `/src/service` will be automatically loaded. As a consequence, those files cannot contain non-relevant function exports.
 
 ## Development pipeline
@@ -44,7 +44,7 @@ Note the following points:
 ### Entity
 
 - create entity in `/src/entity`
-- generate migration with `yarn db migration:generate --name <migration_name>`
+- generate migration with `pnpm db migration:generate --name <migration_name>`
 
 ### Config
 
